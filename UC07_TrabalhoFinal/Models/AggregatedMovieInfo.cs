@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace UC07_TrabalhoFinal.Models
 {
@@ -11,8 +12,8 @@ namespace UC07_TrabalhoFinal.Models
         public string Director { get; set; }
         public string Synopsis { get; set; }
         public string PosterUrl { get; set; }
-        public IEnumerable<string> FlickrPhotosUrls { get; set; }
-        public IEnumerable<NyTimesCritic> Critics { get; set; }
+        public List<string> FlickrPhotosUrls { get; set; }
+        public ConcurrentBag<NyTimesCritic> Critics { get; set; }
 
         #endregion Properties
 
@@ -21,7 +22,7 @@ namespace UC07_TrabalhoFinal.Models
         public AggregatedMovieInfo()
         {
             this.FlickrPhotosUrls = new List<string>();
-            this.Critics = new List<NyTimesCritic>();
+            this.Critics = new ConcurrentBag<NyTimesCritic>();
         }
 
         public AggregatedMovieInfo(string fullTitle, int year, string director, string synopsis, string posterUrl) : this()

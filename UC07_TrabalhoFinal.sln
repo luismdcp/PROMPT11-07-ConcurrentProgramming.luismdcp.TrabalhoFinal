@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UC07_TrabalhoFinal", "UC07_TrabalhoFinal\UC07_TrabalhoFinal.csproj", "{CDF4D2B4-BAA7-404A-9892-D721D3898C50}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncUtils", "AsyncUtils\AsyncUtils.csproj", "{98D9E0C2-E5FC-4447-B857-AC027E80DB8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{CDF4D2B4-BAA7-404A-9892-D721D3898C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDF4D2B4-BAA7-404A-9892-D721D3898C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDF4D2B4-BAA7-404A-9892-D721D3898C50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98D9E0C2-E5FC-4447-B857-AC027E80DB8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98D9E0C2-E5FC-4447-B857-AC027E80DB8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98D9E0C2-E5FC-4447-B857-AC027E80DB8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98D9E0C2-E5FC-4447-B857-AC027E80DB8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

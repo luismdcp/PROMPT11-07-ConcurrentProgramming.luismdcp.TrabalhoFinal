@@ -1,0 +1,5 @@
+C:\PROMPT11\uc07\PROMPT11-07-ConcurrentProgramming.luismdcp.TrabalhoFinal\AsyncUtils\bin\Debug\AsyncUtils.dll
+C:\PROMPT11\uc07\PROMPT11-07-ConcurrentProgramming.luismdcp.TrabalhoFinal\AsyncUtils\bin\Debug\AsyncUtils.pdb
+C:\PROMPT11\uc07\PROMPT11-07-ConcurrentProgramming.luismdcp.TrabalhoFinal\AsyncUtils\obj\Debug\ResolveAssemblyReference.cache
+C:\PROMPT11\uc07\PROMPT11-07-ConcurrentProgramming.luismdcp.TrabalhoFinal\AsyncUtils\obj\Debug\AsyncUtils.dll
+C:\PROMPT11\uc07\PROMPT11-07-ConcurrentProgramming.luismdcp.TrabalhoFinal\AsyncUtils\obj\Debug\AsyncUtils.pdb
