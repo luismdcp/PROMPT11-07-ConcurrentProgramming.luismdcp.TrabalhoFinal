@@ -13,7 +13,7 @@ namespace UC07_TrabalhoFinal.Models
         public string Synopsis { get; set; }
         public string PosterUrl { get; set; }
         public List<string> FlickrPhotosUrls { get; set; }
-        public ConcurrentBag<NyTimesCritic> Critics { get; set; }
+        public ConcurrentBag<NyTimesReview> Reviews { get; set; }
 
         #endregion Properties
 
@@ -22,7 +22,7 @@ namespace UC07_TrabalhoFinal.Models
         public AggregatedMovieInfo()
         {
             this.FlickrPhotosUrls = new List<string>();
-            this.Critics = new ConcurrentBag<NyTimesCritic>();
+            this.Reviews = new ConcurrentBag<NyTimesReview>();
         }
 
         public AggregatedMovieInfo(string fullTitle, int year, string director, string synopsis, string posterUrl) : this()

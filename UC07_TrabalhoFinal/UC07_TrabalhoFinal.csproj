@@ -95,7 +95,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AggregatedMovieInfo.cs" />
-    <Compile Include="Models\NyTimesCritic.cs" />
+    <Compile Include="Models\NyTimesReview.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,23 +1,23 @@
 ﻿
 namespace UC07_TrabalhoFinal.Models
 {
-    public class NyTimesCritic
+    public class NyTimesReview
     {
         #region Properties
 
         public string Critic { get; set; }
         public string CapsuleReview { get; set; }
-        public string FullCriticUrl { get; set; }
+        public string FullReviewUrl { get; set; }
 
         #endregion Properties
 
         #region Constructor
 
-        public NyTimesCritic(string critic, string capsuleReview, string fullCriticUrl)
+        public NyTimesReview(string critic, string capsuleReview, string fullReviewUrl)
         {
             this.Critic = critic;
             this.CapsuleReview = capsuleReview;
-            this.FullCriticUrl = fullCriticUrl;
+            this.FullReviewUrl = fullReviewUrl;
         }
 
         #endregion

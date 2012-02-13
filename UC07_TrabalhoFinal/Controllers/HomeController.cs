@@ -7,24 +7,28 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Async;
 using UC07_TrabalhoFinal.Models;
 
 namespace UC07_TrabalhoFinal.Controllers
 {
     public class HomeController : AsyncController
     {
+        private const int MaxRetries = 8;
         const string FlickrApiKey = "7b5b23c5612668928d0a39cb422fba00";
         const string NyTimesApiKey = "8784a3b88260ed39c7a5986371e09673:7:65631985";
         const string BingApiKey = "A2FD7C4C25F75629FC1AF1780796744062365577";
         readonly List<Task> tasks = new List<Task>();
+        private readonly Random randomizer = new Random();
 
         // GET: /Home/
-        public void IndexAsync(string t, int? y, string l)
+        public void IndexAsync(string t, int? y, string l = "pt")
         {
             AggregatedMovieInfo movieInfo = new AggregatedMovieInfo();
             AsyncManager.OutstandingOperations.Increment();
 
             var imdbResultTask = GetImdbInfoAsync(t, y, l);
+            tasks.Add(imdbResultTask);
 
             imdbResultTask.ContinueWith(
                 _ =>
@@ -34,30 +38,35 @@ namespace UC07_TrabalhoFinal.Controllers
                             var imdbResult = imdbResultTask.Result;
                             FillValuesFromImdbResult(imdbResult, movieInfo);
 
-                            var bingPlotResultTask = GetBingInfoAsync(movieInfo.Synopsis).ContinueWith(
+                            if (!String.IsNullOrEmpty(movieInfo.Synopsis))
+                            {
+                                var bingPlotResultTask = GetBingInfoWithRetriesAsync(movieInfo.Synopsis, l).Run<string>().ContinueWith(
                                     bingTask =>
+                                    {
+                                        if (bingTask.IsCompleted)
                                         {
-                                            if (bingTask.IsCompleted)
-                                            {
-                                                FillValuesFromBingPlotResult(bingTask.Result, movieInfo);
-                                            }
+                                            FillValuesFromBingPlotResult(bingTask.Result, movieInfo);
                                         }
-                            );
+                                    }
+                                );
 
-                            tasks.Add(bingPlotResultTask);
+                                tasks.Add(bingPlotResultTask);
+                            }
 
-
-                            var flickrResultTask = GetFlickrInfoAsync(movieInfo.FullTitle, movieInfo.Director).ContinueWith(
+                            if (!string.IsNullOrEmpty(movieInfo.FullTitle) && !string.IsNullOrEmpty(movieInfo.Director))
+                            {
+                                var flickrResultTask = GetFlickrInfoAsync(movieInfo.FullTitle, movieInfo.Director).ContinueWith(
                                     flickrTask =>
+                                    {
+                                        if (flickrTask.IsCompleted)
                                         {
-                                            if (flickrTask.IsCompleted)
-                                            {
-                                                FillValuesFromFlickrResult(flickrTask.Result, movieInfo);
-                                            }
+                                            FillValuesFromFlickrResult(flickrTask.Result, movieInfo);
                                         }
-                            );
+                                    }
+                                );
 
-                            tasks.Add(flickrResultTask);
+                                tasks.Add(flickrResultTask);   
+                            }
 
                             if (y.HasValue)
                             {
@@ -67,7 +76,7 @@ namespace UC07_TrabalhoFinal.Controllers
                                         if (nyTimesTask.IsCompleted)
                                         {
                                             var nyTimesResult = nyTimesTask.Result;
-                                            FillValuesFromNYTimesResultAsyn(nyTimesResult, movieInfo);  
+                                            FillValuesFromNYTimesResult(nyTimesResult, l, movieInfo);  
                                         }
                                     }
                                 );
@@ -76,10 +85,10 @@ namespace UC07_TrabalhoFinal.Controllers
                             }
 
                             Task.Factory.ContinueWhenAll(tasks.ToArray(), tsks =>
-                                                                        {
-                                                                            AsyncManager.Parameters["movieInfo"] = movieInfo;
-                                                                            AsyncManager.OutstandingOperations.Decrement();
-                                                                        });
+                                                                            {
+                                                                                AsyncManager.Parameters["movieInfo"] = movieInfo;
+                                                                                AsyncManager.OutstandingOperations.Decrement();
+                                                                            });   
                         }
                         else
                         {
@@ -125,10 +134,40 @@ namespace UC07_TrabalhoFinal.Controllers
             return GetInfoAsync(nyTimesUri);
         }
 
-        private Task<string> GetBingInfoAsync(string textToTranslate)
+        private Task<string> GetBingInfoAsync(string textToTranslate, string language)
         {
-            string bingUri = string.Format("http://api.bing.net/json.aspx?AppId={0}&Query={1}&Sources=Translation&Version=2.2&Translation.SourceLanguage=en&Translation.TargetLanguage=pt", BingApiKey, textToTranslate);
+            string bingUri = string.Format("http://api.bing.net/json.aspx?AppId={0}&Query={1}&Sources=Translation&Version=2.2&Translation.SourceLanguage=en&Translation.TargetLanguage={2}", BingApiKey, textToTranslate, language);
             return GetInfoAsync(bingUri);
+        }
+
+        private IEnumerator<Task> GetBingInfoWithRetriesAsync(string textToTranslate, string language)
+        {
+            var tcs = new TaskCompletionSource<string>();
+
+            for (int retries = 0; retries < MaxRetries; ++retries)
+            {
+                var bingRequestTask = GetBingInfoAsync(textToTranslate, language);
+                yield return bingRequestTask;
+
+                if (bingRequestTask.IsCompleted)
+                {
+                    var parseResult = JsonValue.Parse(bingRequestTask.Result).AsDynamic();
+                    var translationResult = parseResult.SearchResponse.Translation;
+
+                    if (translationResult.Count > 0)
+                    {
+                        string translatedResult = translationResult.Results[0].TranslatedTerm;
+                        tcs.SetResult(translatedResult);
+                        yield return tcs.Task;
+                        yield break;
+                    }
+                }
+
+                yield return DelayAsync(1000 + 1000 * retries + randomizer.Next(2000));
+            }
+
+            tcs.SetResult(string.Empty);
+            yield return tcs.Task;
         }
 
         private Task<string> GetInfoAsync(string uri)
@@ -143,8 +182,8 @@ namespace UC07_TrabalhoFinal.Controllers
                     if (streamTask.IsCompleted)
                     {
                         var result = streamTask.Result;
-                        var flickrStringResult = new StreamReader(result).ReadToEnd();
-                        tcs.TrySetResult(flickrStringResult);
+                        var stringResult = new StreamReader(result).ReadToEnd();
+                        tcs.TrySetResult(stringResult);
                     }
                     else
                     {
@@ -163,7 +202,7 @@ namespace UC07_TrabalhoFinal.Controllers
             return tcs.Task;
         }
 
-        private void FillValuesFromNYTimesResultAsyn(string nyTimesResult, AggregatedMovieInfo movieInfo)
+        private void FillValuesFromNYTimesResult(string nyTimesResult, string language, AggregatedMovieInfo movieInfo)
         {
             var parseValue = JsonValue.Parse(nyTimesResult).AsDynamic();
 
@@ -177,12 +216,14 @@ namespace UC07_TrabalhoFinal.Controllers
                     string capsuleReview = criticsResult.capsule_review;
                     string fullReviewUrl = criticsResult.link.url;
 
-                    var returnTask = GetBingInfoAsync(capsuleReview).ContinueWith(
+                    var returnTask = GetBingInfoWithRetriesAsync(capsuleReview, language).Run<string>().ContinueWith(
                         bingTask =>
                         {
-                            var parseTranslatedReview = JsonValue.Parse(bingTask.Result).AsDynamic();
-                            string capsuleReviewTranslation = parseTranslatedReview.SearchResponse.Translation.Results[0].TranslatedTerm;
-                            movieInfo.Critics.Add(new NyTimesCritic(critic, capsuleReviewTranslation, fullReviewUrl));
+                            if (bingTask.IsCompleted)
+                            {
+                                movieInfo.Reviews.Add(new NyTimesReview(critic, bingTask.Result, fullReviewUrl));                                
+                            }
+
                         }, TaskContinuationOptions.AttachedToParent
                     );
 
@@ -228,19 +269,18 @@ namespace UC07_TrabalhoFinal.Controllers
 
         private void FillValuesFromBingPlotResult(string bingPlotResult, AggregatedMovieInfo movieInfo)
         {
-            var parseValue = JsonValue.Parse(bingPlotResult).AsDynamic();
-            movieInfo.Synopsis = parseValue.SearchResponse.Translation.Results[0].TranslatedTerm;
+            movieInfo.Synopsis = bingPlotResult;
         }
 
         private Task DelayAsync(int waitTime)
         {
             TaskCompletionSource<object> source = new TaskCompletionSource<object>();
 
-            new Timer((state) => source.SetResult(new object()),
+            new Timer(state => source.SetResult(new object()),
                       null,
                       waitTime,
                       0
-                );
+            );
 
             return source.Task;
         }
