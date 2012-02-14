@@ -28,12 +28,19 @@ namespace UC07_TrabalhoFinal.Controllers
             AggregatedMovieInfo movieInfo = new AggregatedMovieInfo();
             AsyncManager.OutstandingOperations.Increment();
 
-            //var imdbResultTask = GetImdbInfoAsync(t, y, l);
-            var imdbResultTask = GetCachedImdbInfoAsync(t, y, l);
-            tasks.Add(imdbResultTask);
+            if (string.IsNullOrEmpty(t))
+            {
+                AsyncManager.Parameters["movieInfo"] = movieInfo;
+                AsyncManager.OutstandingOperations.Decrement();
+            }
+            else
+            {
+                //var imdbResultTask = GetImdbInfoAsync(t, y, l);
+                var imdbResultTask = GetCachedImdbInfoAsync(t, y, l);
+                tasks.Add(imdbResultTask);
 
-            imdbResultTask.ContinueWith(
-                _ =>
+                imdbResultTask.ContinueWith(
+                    _ =>
                     {
                         if (imdbResultTask.IsCompleted)
                         {
@@ -69,7 +76,7 @@ namespace UC07_TrabalhoFinal.Controllers
                                     }
                                 );
 
-                                tasks.Add(flickrResultTask);   
+                                tasks.Add(flickrResultTask);
                             }
 
                             if (y.HasValue)
@@ -81,7 +88,7 @@ namespace UC07_TrabalhoFinal.Controllers
                                         if (nyTimesTask.IsCompleted)
                                         {
                                             var nyTimesResult = nyTimesTask.Result;
-                                            FillValuesFromNYTimesResult(nyTimesResult, l, movieInfo);  
+                                            FillValuesFromNYTimesResult(nyTimesResult, l, movieInfo);
                                         }
                                     }
                                 );
@@ -90,16 +97,18 @@ namespace UC07_TrabalhoFinal.Controllers
                             }
 
                             Task.Factory.ContinueWhenAll(tasks.ToArray(), tsks =>
-                                                                            {
-                                                                                AsyncManager.Parameters["movieInfo"] = movieInfo;
-                                                                                AsyncManager.OutstandingOperations.Decrement();
-                                                                            });   
+                            {
+                                AsyncManager.Parameters["movieInfo"] = movieInfo;
+                                AsyncManager.OutstandingOperations.Decrement();
+                            });
                         }
                         else
                         {
+                            AsyncManager.Parameters["movieInfo"] = movieInfo;
                             AsyncManager.OutstandingOperations.Decrement();
                         }
-                    });
+                    });   
+            }
         }
 
         public JsonResult IndexCompleted(AggregatedMovieInfo movieInfo)
