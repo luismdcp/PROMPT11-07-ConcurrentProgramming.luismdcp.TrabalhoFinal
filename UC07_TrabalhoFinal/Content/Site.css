@@ -15,6 +15,16 @@ section {
 
 /* Styles for basic forms
 -----------------------------------------------------------*/
+a 
+{
+    float: left;
+    margin-right: 10px   
+}
+
+textarea 
+{
+    margin-top: 10px;
+}
 
 fieldset 
 {

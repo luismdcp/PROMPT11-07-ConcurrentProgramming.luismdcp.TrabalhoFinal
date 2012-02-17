@@ -1,43 +1,40 @@
 ﻿<RecentFiles>
   <RecentFiles>
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Home/f:Index.cshtml" caret="51" fromTop="3" />
     <File id="98D9E0C2-E5FC-4447-B857-AC027E80DB8F/f:TaskUtils.cs" caret="0" fromTop="0" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Models/f:AggregatedMovieInfo.cs" caret="526" fromTop="7" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Models/f:NyTimesReview.cs" caret="288" fromTop="11" />
     <File id="98D9E0C2-E5FC-4447-B857-AC027E80DB8F/f:AsyncEnumerator.cs" caret="1234" fromTop="16" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="2046" fromTop="24" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="1626" fromTop="20" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/f:Global.asax.cs" caret="83" fromTop="4" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/f:Web.config" caret="2840" fromTop="48" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="0" fromTop="0" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/f:_ViewStart.cshtml" caret="0" fromTop="0" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Models/f:NyTimesReview.cs" caret="537" fromTop="19" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Models/f:AggregatedMovieInfo.cs" caret="725" fromTop="0" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Content/f:Site.css" caret="376" fromTop="25" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="6" fromTop="0" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Home/f:Index.cshtml" caret="1701" fromTop="56" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Shared/f:_Layout.cshtml" caret="567" fromTop="3" />
   </RecentFiles>
   <RecentEdits>
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="10813" fromTop="3" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="12983" fromTop="4" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="5741" fromTop="18" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="4990" fromTop="16" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="9603" fromTop="14" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="13172" fromTop="16" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="13308" fromTop="20" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="13356" fromTop="23" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="7903" fromTop="13" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="9097" fromTop="31" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="257" fromTop="10" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="2454" fromTop="11" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="776" fromTop="9" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="10213" fromTop="89" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="461" fromTop="13" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="3174" fromTop="43" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="2105" fromTop="17" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="1905" fromTop="20" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="2081" fromTop="13" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="149" fromTop="5" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="2305" fromTop="19" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="2305" fromTop="20" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="972" fromTop="11" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="2305" fromTop="20" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="1837" fromTop="20" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="1576" fromTop="20" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="1693" fromTop="21" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="1848" fromTop="25" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="2179" fromTop="19" />
-    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Caching/f:ConcurrentCache.cs" caret="1577" fromTop="20" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Shared/f:_Layout.cshtml" caret="771" fromTop="22" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Shared/f:_Layout.cshtml" caret="446" fromTop="9" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Shared/f:_Layout.cshtml" caret="1186" fromTop="23" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Home/f:Index.cshtml" caret="1405" fromTop="31" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Home/f:Index.cshtml" caret="1376" fromTop="25" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Home/f:Index.cshtml" caret="1405" fromTop="21" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Shared/f:_Layout.cshtml" caret="1118" fromTop="21" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Home/f:Index.cshtml" caret="756" fromTop="25" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Home/f:Index.cshtml" caret="144" fromTop="10" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Models/f:AggregatedMovieInfo.cs" caret="558" fromTop="9" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="5249" fromTop="20" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="5166" fromTop="17" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Models/f:AggregatedMovieInfo.cs" caret="1488" fromTop="25" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Models/f:AggregatedMovieInfo.cs" caret="1277" fromTop="12" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Models/f:AggregatedMovieInfo.cs" caret="1466" fromTop="21" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Home/f:Index.cshtml" caret="1657" fromTop="26" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Content/f:Site.css" caret="399" fromTop="26" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Shared/f:_Layout.cshtml" caret="2170" fromTop="23" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Shared/f:_Layout.cshtml" caret="291" fromTop="7" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Shared/f:_Layout.cshtml" caret="1566" fromTop="13" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Controllers/f:HomeController.cs" caret="276" fromTop="4" />
+    <File id="CDF4D2B4-BAA7-404A-9892-D721D3898C50/d:Views/d:Shared/f:_Layout.cshtml" caret="1309" fromTop="16" />
   </RecentEdits>
 </RecentFiles>

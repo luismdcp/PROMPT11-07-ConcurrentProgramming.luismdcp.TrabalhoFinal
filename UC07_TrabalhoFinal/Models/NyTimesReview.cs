@@ -5,19 +5,19 @@ namespace UC07_TrabalhoFinal.Models
     {
         #region Properties
 
-        public string Critic { get; set; }
-        public string CapsuleReview { get; set; }
-        public string FullReviewUrl { get; set; }
+        public string reviewer { get; set; }
+        public string resume { get; set; }
+        public string url { get; set; }
 
         #endregion Properties
 
         #region Constructor
 
-        public NyTimesReview(string critic, string capsuleReview, string fullReviewUrl)
+        public NyTimesReview(string reviewer, string resume, string url)
         {
-            this.Critic = critic;
-            this.CapsuleReview = capsuleReview;
-            this.FullReviewUrl = fullReviewUrl;
+            this.reviewer = reviewer;
+            this.resume = resume;
+            this.url = url;
         }
 
         #endregion

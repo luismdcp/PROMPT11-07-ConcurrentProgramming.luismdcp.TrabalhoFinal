@@ -1,4 +1,57 @@
 ﻿@{
     ViewBag.Title = "Index";
 }
+
 <h2>Index</h2>
+
+@using (Html.BeginForm())
+{
+    <div>
+        <fieldset>
+            <legend>Filter</legend>
+            <p>
+                <label for="TitleBox">Title:</label>
+                @Html.TextBox("TitleBox")
+                
+                <label for="YearBox">Year:</label>
+                @Html.TextBox("YearBox")
+                
+                <label for="LanguageBox">Language:</label>
+                @Html.TextBox("LanguageBox")
+                
+                <input type="button" id="GetMovieInfo" value="Populate Movie Details" onclick='populateMovieDetails()'/>
+            </p>          
+        </fieldset>
+        <fieldset>
+            <legend>Movie Details</legend>
+            <br />
+
+            <label for="FullTitleBox">Full title:</label>
+            @Html.TextBox("FullTitleBox")
+                
+            <label for="YearInfoBox">Year:</label>
+            @Html.TextBox("YearInfoBox")
+                
+            <label for="DirectorBox">Director:</label>
+            @Html.TextBox("DirectorBox")
+                
+            <br />
+                
+            <label for="Poster">Poster:</label>
+            <div id="Poster"></div>
+                
+            <br />
+                
+            <label for="SynopsisBox">Synopsis:</label>
+            @Html.TextArea("SynopsisBox")
+        </fieldset>
+        <fieldset>
+            <legend>Flickr Pics</legend>
+            <div id="flickrGallery"></div>
+        </fieldset>
+        <fieldset>
+            <legend>NY Times Reviews</legend>
+            <div id="reviewsGallery"></div>
+        </fieldset>
+    </div>
+}

@@ -1,4 +1,5 @@
 <Modules>
   <Module PersistentId="CDF4D2B4-BAA7-404A-9892-D721D3898C50" ModuleId="UC07_TrabalhoFinal" />
   <Module PersistentId="98D9E0C2-E5FC-4447-B857-AC027E80DB8F" ModuleId="AsyncUtils" />
+  <Module PersistentId="D0C302F4-E6E3-4099-9F8A-BB6744F505AD" ModuleId="MovieInfoClient" />
 </Modules>

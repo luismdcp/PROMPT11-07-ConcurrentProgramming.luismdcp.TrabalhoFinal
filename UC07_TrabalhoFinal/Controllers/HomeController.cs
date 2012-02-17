@@ -15,23 +15,34 @@ namespace UC07_TrabalhoFinal.Controllers
 {
     public class HomeController : AsyncController
     {
-        private const int MaxRetries = 8;
+        #region Fields
+
+        private const int MaxRetries = 3;
         const string FlickrApiKey = "7b5b23c5612668928d0a39cb422fba00";
         const string NyTimesApiKey = "8784a3b88260ed39c7a5986371e09673:7:65631985";
         const string BingApiKey = "A2FD7C4C25F75629FC1AF1780796744062365577";
         readonly List<Task> tasks = new List<Task>();
         private readonly Random randomizer = new Random();
 
+        #endregion Fields
+
+        #region Actions
+
         // GET: /Home/
-        public void IndexAsync(string t, int? y, string l = "pt")
+
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        public void MovieInfoAsync(string t, int? y, string l = "pt")
         {
             AggregatedMovieInfo movieInfo = new AggregatedMovieInfo();
             AsyncManager.OutstandingOperations.Increment();
 
             if (string.IsNullOrEmpty(t))
             {
-                AsyncManager.Parameters["movieInfo"] = movieInfo;
-                AsyncManager.OutstandingOperations.Decrement();
+                FinalizeOperations(movieInfo);
             }
             else
             {
@@ -47,10 +58,10 @@ namespace UC07_TrabalhoFinal.Controllers
                             var imdbResult = imdbResultTask.Result;
                             FillValuesFromImdbResult(imdbResult, movieInfo);
 
-                            if (!String.IsNullOrEmpty(movieInfo.Synopsis))
+                            if (!String.IsNullOrEmpty(movieInfo.plot))
                             {
                                 //var bingPlotResultTask = GetBingInfoWithRetriesAsync(movieInfo.Synopsis, l).Run<string>().ContinueWith(
-                                var bingPlotResultTask = GetCachedBingInfoWithRetriesAsync(movieInfo.Synopsis, t, l).Run<string>().ContinueWith(
+                                var bingPlotResultTask = GetCachedBingInfoWithRetriesAsync(movieInfo.plot, t, l).Run<string>().ContinueWith(
                                     bingTask =>
                                     {
                                         if (bingTask.IsCompleted)
@@ -63,10 +74,10 @@ namespace UC07_TrabalhoFinal.Controllers
                                 tasks.Add(bingPlotResultTask);
                             }
 
-                            if (!string.IsNullOrEmpty(movieInfo.FullTitle) && !string.IsNullOrEmpty(movieInfo.Director))
+                            if (!string.IsNullOrEmpty(movieInfo.title) && !string.IsNullOrEmpty(movieInfo.director_name))
                             {
                                 //var flickrResultTask = GetFlickrInfoAsync(movieInfo.FullTitle, movieInfo.Director).ContinueWith(
-                                var flickrResultTask = GetCachedFlickrInfoAsync(movieInfo.FullTitle, movieInfo.Director, l).ContinueWith(
+                                var flickrResultTask = GetCachedFlickrInfoAsync(movieInfo.title, movieInfo.director_name, l).ContinueWith(
                                     flickrTask =>
                                     {
                                         if (flickrTask.IsCompleted)
@@ -82,7 +93,7 @@ namespace UC07_TrabalhoFinal.Controllers
                             if (y.HasValue)
                             {
                                 //var nYTimesResultTask = GetNyTimesInfoAsync(movieInfo.FullTitle, y.Value).ContinueWith(
-                                var nYTimesResultTask = GetCachedNyTimesInfoAsync(movieInfo.FullTitle, y.Value, l).ContinueWith(
+                                var nYTimesResultTask = GetCachedNyTimesInfoAsync(movieInfo.title, y.Value, l).ContinueWith(
                                     nyTimesTask =>
                                     {
                                         if (nyTimesTask.IsCompleted)
@@ -96,25 +107,23 @@ namespace UC07_TrabalhoFinal.Controllers
                                 tasks.Add(nYTimesResultTask);
                             }
 
-                            Task.Factory.ContinueWhenAll(tasks.ToArray(), tsks =>
-                            {
-                                AsyncManager.Parameters["movieInfo"] = movieInfo;
-                                AsyncManager.OutstandingOperations.Decrement();
-                            });
+                            Task.Factory.ContinueWhenAll(tasks.ToArray(), tsks => FinalizeOperations(movieInfo));
                         }
                         else
                         {
-                            AsyncManager.Parameters["movieInfo"] = movieInfo;
-                            AsyncManager.OutstandingOperations.Decrement();
+                            FinalizeOperations(movieInfo);
                         }
-                    });   
+                    });
             }
         }
 
-        public JsonResult IndexCompleted(AggregatedMovieInfo movieInfo)
+        public JsonResult MovieInfoCompleted(AggregatedMovieInfo movieInfo)
         {
+            movieInfo.NormalizeReviewsForJson();
             return Json(movieInfo, JsonRequestBehavior.AllowGet);
         }
+
+        #endregion Actions
 
         #region Cached methods
 
@@ -277,7 +286,7 @@ namespace UC07_TrabalhoFinal.Controllers
                         {
                             if (bingTask.IsCompleted)
                             {
-                                movieInfo.Reviews.Add(new NyTimesReview(critic, bingTask.Result, fullReviewUrl));
+                                movieInfo.ConcurrentReviews.Add(new NyTimesReview(critic, bingTask.Result, fullReviewUrl));
                             }
 
                         }, TaskContinuationOptions.AttachedToParent
@@ -294,11 +303,11 @@ namespace UC07_TrabalhoFinal.Controllers
 
             if (parseValue.Response == "True")
             {
-                movieInfo.FullTitle = parseValue.Title;
-                movieInfo.Year = parseValue.Year;
-                movieInfo.Director = parseValue.Director;
-                movieInfo.Synopsis = parseValue.Plot;
-                movieInfo.PosterUrl = parseValue.Poster;
+                movieInfo.title = parseValue.Title;
+                movieInfo.year = parseValue.Year;
+                movieInfo.director_name = parseValue.Director;
+                movieInfo.plot = parseValue.Plot;
+                movieInfo.poster_url = parseValue.Poster;
             }
         }
 
@@ -318,14 +327,14 @@ namespace UC07_TrabalhoFinal.Controllers
                     var secret = photo.secret.Value;
                     var template = String.Format("http://farm{0}.static.flickr.com/{1}/{2}_{3}.jpg", farm, server, id, secret);
 
-                    movieInfo.FlickrPhotosUrls.Add(template);
+                    movieInfo.photos.Add(template);
                 }
             }
         }
 
         private void FillValuesFromBingPlotResult(string bingPlotResult, AggregatedMovieInfo movieInfo)
         {
-            movieInfo.Synopsis = bingPlotResult;
+            movieInfo.plot = bingPlotResult;
         }
 
         #endregion Fill methods
@@ -355,7 +364,10 @@ namespace UC07_TrabalhoFinal.Controllers
                         }
                         else
                         {
-                            tcs.TrySetException(streamTask.Exception.InnerExceptions);
+                            if (streamTask.Exception != null)
+                            {
+                                tcs.TrySetException(streamTask.Exception.InnerExceptions);
+                            }
                         }
                     }
                 }
@@ -375,6 +387,12 @@ namespace UC07_TrabalhoFinal.Controllers
             );
 
             return source.Task;
+        }
+
+        private void FinalizeOperations(AggregatedMovieInfo movieInfo)
+        {
+            AsyncManager.Parameters["movieInfo"] = movieInfo;
+            AsyncManager.OutstandingOperations.Decrement();
         }
 
         #endregion Helper methods
